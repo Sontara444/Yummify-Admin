@@ -20,9 +20,9 @@ const Add = () => {
 
 
 
-
   const onSubmitHandler = async (event)=>{
     event.preventDefault()
+    // console.log("data", data)
 
   }
 
