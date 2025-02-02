@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { assets } from "../../assets/assets";
 import "./Add.css";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-const Add = () => {
+const Add = ({backendUrl}) => {
   const [image, setImage] = useState(false);
   const [data, setData] = useState({
     name: "",
@@ -22,7 +24,23 @@ const Add = () => {
 
   const onSubmitHandler = async (event)=>{
     event.preventDefault()
-    // console.log("data", data)
+
+    const formData = new FormData();
+    formData.append("name", data.name)
+    formData.append("description", data.description)
+    formData.append("price", data.price)
+    formData.append("category", data.category)
+    formData.append("image", image)
+
+    try {
+      const response = await axios.post(`${backendUrl}/api/product/add-product`)
+      console.log(response)
+      
+    } catch (error) {
+      toast.error(error.message)
+    }
+
+    
 
   }
 

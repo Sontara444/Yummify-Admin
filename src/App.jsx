@@ -9,6 +9,8 @@ import "react-toastify/dist/ReactToastify.css"
 
 
 const App = () => {
+
+  const backendUrl = "http://localhost:4000"
   return (
     <div>
       <ToastContainer/>
@@ -17,9 +19,9 @@ const App = () => {
       <div className="app-content">
         <Sidebar />
         <Routes>
-          <Route path="/add" element={<Add/>}/>
-          <Route path="/list" element={<List/>}/>
-          <Route path="/orders" element={<Orders/>}/>
+          <Route path="/add" element={<Add backendUrl={backendUrl}/>}/>
+          <Route path="/list" element={<List backendUrl={backendUrl}/>}/>
+          <Route path="/orders" element={<Orders backendUrl={backendUrl}/>}/>
         </Routes>
       </div>
     </div>
