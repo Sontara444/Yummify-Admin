@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const Add = ({backendUrl}) => {
-  const [image, setImage] = useState(false);
+  const [image, setImage] = useState(null);
   const [data, setData] = useState({
     name: "",
     description: "",
@@ -20,29 +20,38 @@ const Add = ({backendUrl}) => {
     setData((data) => ({ ...data, [name]: value }));
   };
 
-
-
-  const onSubmitHandler = async (event)=>{
-    event.preventDefault()
+  const onSubmitHandler = async (event) => {
+    event.preventDefault();
 
     const formData = new FormData();
-    formData.append("name", data.name)
-    formData.append("description", data.description)
-    formData.append("price", data.price)
-    formData.append("category", data.category)
-    formData.append("image", image)
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("price", data.price);
+    formData.append("category", data.category);
+    formData.append("image", image);
 
     try {
-      const response = await axios.post(`${backendUrl}/api/product/add-product`)
-      console.log(response)
-      
+      const response = await axios.post(
+        `${backendUrl}/api/product/add-product`,
+        formData
+      );
+
+      if (response.data.success) {
+        setData({
+          name: "",
+          description: "",
+          price: "",
+          category: "salad",
+        })
+        setImage(false)
+        toast.success(response.data.message)
+      } else {
+        toast.error(response.data.message);
+      }
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
-
-    
-
-  }
+  };
 
   return (
     <div className="add">
