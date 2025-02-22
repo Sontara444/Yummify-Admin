@@ -12,12 +12,23 @@ const Orders = ({ backendUrl }) => {
 
       if (response.data.success) {
         setOrders(response.data.data);
-        console.log(response.data.data);
       } else {
         toast.error("Error fetching orders");
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const statusHandler = async (event, orderId) => {
+
+    const response = await axios.post(`${backendUrl}/api/order/status`, {
+      orderId,
+      status: event.target.value,
+    });
+
+    if(response.data.success) {
+      await fetchAllOrders();
     }
   };
 
@@ -47,13 +58,27 @@ const Orders = ({ backendUrl }) => {
             <div className="order-item-address">
               <p>{order.address.street + " , "}</p>
               <p>
-                {order.address.city+" , "+order.address.state +" , "+order.address.country+" , "+order.address.zipcode}
+                {order.address.city +
+                  " , " +
+                  order.address.state +
+                  " , " +
+                  order.address.country +
+                  " , " +
+                  order.address.zipcode}
               </p>
             </div>
             <p className="order-item-phone">{order.address.phone}</p>
           </div>
           <p>Items: {order.items.length}</p>
           <p>${order.amount}</p>
+          <select
+            onChange={(event) => statusHandler(event, order._id)}
+            value={order.status}
+          >
+            <option value="Food Processing">Food Processing</option>
+            <option value="Out for Delivery">Out for Delivery</option>
+            <option value="Delivered">Delivered</option>
+          </select>
         </div>
       ))}
     </div>
