@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css"
 
 const App = () => {
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL
+  const backendUrl = "https://yummify-admin.onrender.com"
   return (
     <div>
       <ToastContainer/>
